@@ -27,13 +27,14 @@ pipeline {
         }
         stage('User Create') {
             steps {
-                sh "useradd -m -s /bin/bash ${usuario}"
-                sh """usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]" | tr "í" "i") ${usuario}"""
+                sh "sudo useradd -m -s /bin/bash ${usuario}"
+                sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]" | tr "í" "i") ${usuario}"""
+                sh "sudo usermod -aG sudo ${usuario}" // Agrega el usuario al grupo sudo
             }
         }
         stage('Password Create') {
             steps {
-                sh """password=\$(openssl rand -base64 12) && echo "${usuario}:\${password}" | chpasswd"""
+                sh """password=\$(openssl rand -base64 12) && echo "${usuario}:\${password}" | sudo chpasswd"""
                 sh """echo 'Contraseña generada para ${usuario}: \${password}'"""
             }
         }
