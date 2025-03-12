@@ -27,9 +27,9 @@ pipeline {
         }
         stage('User Create') {
             steps {
-                sh "sudo useradd -m -s /bin/bash ${usuario}"
+                sh "sudo useradd -m -s /bin/bash ${usuario}" //falta controlar si el usuario ya existe
                 sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]" | tr "í" "i") ${usuario}"""
-                sh "sudo usermod -aG sudo ${usuario}" // Agrega el usuario al grupo sudo
+                sh "sudo usermod -aG sudo ${usuario}" 
             }
         }
         stage('Password Create') {
