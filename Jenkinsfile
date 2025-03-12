@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Normalize inputs') {
             steps {
-                sh """usuario=$(echo "${NOMBRE}-${APELLIDO}" | tr -cd "[:alpha:]-" | tr "[:upper:]" "[:lower:]")"""
+                sh """usuario=\$(echo "\${NOMBRE}-\${APELLIDO}" | tr -cd "[:alpha:]-" | tr "[:upper:]" "[:lower:]")"""
                 sh 'echo "Usuario generado: $usuario"'
             }
         }
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Password Create') {
             steps {
-                sh """password=$(openssl rand -base64 12) && echo "$usuario:$password" | chpasswd"""
+                sh """password=\$(openssl rand -base64 12) && echo "\$usuario:\$password" | chpasswd"""
                 sh """echo 'Contraseña generada para $usuario: $password'"""
             }
         }
