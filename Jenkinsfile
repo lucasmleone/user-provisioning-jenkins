@@ -19,20 +19,22 @@ pipeline {
         }
         stage('Normalize inputs') {
             steps {
-                sh """usuario=\$(echo "\${NOMBRE}-\${APELLIDO}" | tr -cd "[:alpha:]-" | tr "[:upper:]" "[:lower:]")"""
-                sh 'echo "Usuario generado: $usuario"'
+                script {
+                    usuario = sh(script: """echo "${params.NOMBRE}-${params.APELLIDO}" | tr -cd "[:alpha:]-" | tr "[:upper:]" "[:lower:]" """, returnStdout: true).trim()
+                    echo "Usuario generado: ${usuario}"
+                }
             }
         }
         stage('User Create') {
             steps {
-                sh "useradd -m -s /bin/bash \$usuario"
-                sh """usermod -aG \$(echo \${DEPARTAMENTO} | tr "[:upper:]" "[:lower:]" | tr "í" "i") \$usuario"""
+                sh "useradd -m -s /bin/bash ${usuario}"
+                sh """usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]" | tr "í" "i") ${usuario}"""
             }
         }
         stage('Password Create') {
             steps {
-                sh """password=\$(openssl rand -base64 12) && echo "\$usuario:\$password" | chpasswd"""
-                sh """echo 'Contraseña generada para \$usuario: \$password'"""
+                sh """password=\$(openssl rand -base64 12) && echo "${usuario}:\${password}" | chpasswd"""
+                sh """echo 'Contraseña generada para ${usuario}: \${password}'"""
             }
         }
     }
