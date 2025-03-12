@@ -34,8 +34,11 @@ pipeline {
         }
         stage('Password Create') {
             steps {
-                sh """password=\$(openssl rand -base64 12) && echo "${usuario}:\${password}" | sudo chpasswd"""
-                sh """echo 'Contraseña generada para ${usuario}: \${password}'"""
+                script {
+                    password = sh(script: 'openssl rand -base64 12', returnStdout: true).trim()
+                    sh "echo '${usuario}:${password}' | sudo chpasswd"
+                    echo "Contraseña generada para ${usuario}: ${password}"
+                }
             }
         }
     }
