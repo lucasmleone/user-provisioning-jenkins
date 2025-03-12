@@ -19,17 +19,20 @@ pipeline {
         }
         stage('Normalize inputs') {
             steps {
-                sh """usuario=$(echo "${NOMBRE} - ${APELLIDO}" | tr -cd "[:alpha:]- | tr [:upper:] [:lower:])"""
+                sh """usuario=$(echo "${NOMBRE}-${APELLIDO}" | tr -cd "[:alpha:]-" | tr "[:upper:]" "[:lower:]")"""
+                sh 'echo "Usuario generado: $usuario"'
             }
         }
         stage('User Create') {
             steps {
-                sh """cd /tmp/ejercicio1 && grep '${KEY_WORD}' apache_logs | grep "${CODE}" > apache_logs_filtered"""
+                sh "sudo useradd -m -s /bin/bash $usuario"
+                sh "sudo usermod -aG ${DEPARTAMENTO} $usuario"
             }
         }
         stage('Password Create') {
             steps {
-                sh 'cd /tmp/ejercicio1 && wc -l apache_logs_filtered'
+                sh """password=$(openssl rand -base64 12) && echo "$usuario:$password" | sudo chpasswd"""
+                sh """echo 'Contraseña generada para $usuario: $password'"""
             }
         }
     }
