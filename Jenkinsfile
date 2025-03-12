@@ -4,7 +4,7 @@ pipeline {
     parameters {
         string(name: 'NOMBRE', description: 'INGRESA TU NOMBRE')
         string(name: 'APELLIDO', description: 'INGRESA TU APELLIDO')
-        choice(name: 'DEPARTAMENTO', choices: ['Contabilidad', 'Finanzas', 'Tecnología'], description: 'Selecciona el departamento')
+        choice(name: 'DEPARTAMENTO', choices: ['Contabilidad', 'Finanzas', 'Tecnologia'], description: 'Selecciona el departamento')
     }
 
     stages {
@@ -28,7 +28,7 @@ pipeline {
         stage('User Create') {
             steps {
                 sh "sudo useradd -m -s /bin/bash ${usuario}" //falta controlar si el usuario ya existe
-                sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "í" "i" | tr "[:upper:]" "[:lower:]") ${usuario}"""
+                sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}"""
                 sh "sudo usermod -aG sudo ${usuario}" 
             }
         }
