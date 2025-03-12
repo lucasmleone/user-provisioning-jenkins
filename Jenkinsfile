@@ -1,23 +1,33 @@
 pipeline {
     agent any
-    
-     parameters{
-        string( name: 'KEY_WORD', defaultValue: 'logstash', description: 'Key Word') 
-        string( name: 'CODE', defaultValue: '200', description: 'Code') 
+
+    parameters {
+        string(name: 'NOMBRE', description: 'INGRESA TU NOMBRE')
+        string(name: 'APELLIDO', description: 'INGRESA TU APELLIDO')
+        choice(name: 'DEPARTAMENTO', choices: ['Contabilidad', 'Finanzas', 'Tecnología'], description: 'Selecciona el departamento')
     }
 
     stages {
-        stage('get apache logs') {
+        stage('Validate Input') {
             steps {
-                sh 'cd /tmp/ejercicio1 && curl -O  https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs'
+                script {
+                    if (!params.NOMBRE?.trim() || !params.APELLIDO?.trim()) {
+                        error("❌ ERROR: Debes ingresar NOMBRE y APELLIDO.")
+                    }
+                }
             }
         }
-        stage('filter apache logs') {
+        stage('Normalize inputs') {
+            steps {
+                sh """usuario=$(echo "${NOMBRE} - ${APELLIDO}" | tr -cd "[:alpha:]- | tr [:upper:] [:lower:])"""
+            }
+        }
+        stage('User Create') {
             steps {
                 sh """cd /tmp/ejercicio1 && grep '${KEY_WORD}' apache_logs | grep "${CODE}" > apache_logs_filtered"""
             }
         }
-        stage('count lines') {
+        stage('Password Create') {
             steps {
                 sh 'cd /tmp/ejercicio1 && wc -l apache_logs_filtered'
             }
