@@ -27,7 +27,7 @@ pipeline {
         }
         stage('User Create') {
             steps {
-                sh "sudo useradd -m -s /bin/bash ${usuario}"
+                sh "useradd -m -s /bin/bash ${usuario}"
                 sh """usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]" | tr "í" "i") ${usuario}"""
             }
         }
