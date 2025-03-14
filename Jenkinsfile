@@ -19,7 +19,7 @@ pipeline {
                         error("❌ ERROR: Debes ingresar NOMBRE y APELLIDO.")
                     }
                 }
-                // Verifica si el grupo del departamento existe y, de no existir, lo crea
+                // Verifica si el grupo del departamento existe. En caso de que no exista lo crea
                 sh '''getent group $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]') > /dev/null || (echo 'El grupo no existe procedere a crearlo' && groupadd $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]'))'''
             }
         }
@@ -49,7 +49,7 @@ pipeline {
                     password = sh(script: 'openssl rand -base64 12', returnStdout: true).trim()
                     sh "echo '${usuario}:${password}' | sudo chpasswd"
                     // Fuerza el cambio de contraseña en el primer inicio de sesión
-                    sh "sudo passwd --expire ${usuario}"
+                    sh "passwd --expire ${usuario}"
                     echo "Contraseña TEMPORAL generada para ${usuario}: ${password}"
                     echo "Por favor, cambie su contraseña en su primer inicio de sesión."
                 }
