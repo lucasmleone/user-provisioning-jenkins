@@ -20,7 +20,7 @@ pipeline {
                     }
                 }
                 // Verifica si el grupo del departamento existe y, de no existir, lo crea
-                sh "getent group $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]') > /dev/null || (echo 'El grupo no existe procedere a crearlo' && groupadd $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]'))"
+                sh '''getent group $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]') > /dev/null || (echo 'El grupo no existe procedere a crearlo' && groupadd $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]'))'''
             }
         }
         stage('Normalize inputs') {
