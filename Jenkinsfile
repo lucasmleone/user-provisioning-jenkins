@@ -8,13 +8,17 @@ pipeline {
     }
 
     stages {
-        stage('Validate Input') {
+        stage('Validate Input and groups') {
             steps {
                 script {
                     if (!params.NOMBRE?.trim() || !params.APELLIDO?.trim()) {
                         error("❌ ERROR: Debes ingresar NOMBRE y APELLIDO.")
                     }
+                    if (!params.NOMBRE?.trim() || !params.APELLIDO?.trim()) {
+                        error("❌ ERROR: Debes ingresar NOMBRE y APELLIDO.")
+                    }
                 }
+                sh "getent group $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]') > /dev/null || (echo 'El grupo no existe procedere a crearlo' && groupadd $(echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]'))"
             }
         }
         stage('Normalize inputs') {
