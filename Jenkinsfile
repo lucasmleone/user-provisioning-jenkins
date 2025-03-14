@@ -34,10 +34,10 @@ pipeline {
         }
         stage('User Create') {
             steps {
-                // Crea el usuario; se debe agregar control para evitar duplicados si existiera
-                sh "sudo useradd -m -s /bin/bash ${usuario} > /dev/null || echo 'El ${usuario} ya existe'" //falta controlar si el usuario ya existe
+                // Crea el usuario; en caso de duplicado muestra error
+                sh "sudo useradd -m -s /bin/bash ${usuario} 2>/dev/null || echo 'El ${usuario} ya existe'" 
                 // Agrega el usuario al grupo correspondiente del departamento
-                sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}"""
+                sh '''sudo usermod -aG $(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}'''
                 // Agrega el usuario al grupo sudo para permisos administrativos
                 sh "sudo usermod -aG sudo ${usuario}" 
             }
@@ -48,7 +48,10 @@ pipeline {
                     // Genera una contraseña aleatoria y la asigna al usuario creado
                     password = sh(script: 'openssl rand -base64 12', returnStdout: true).trim()
                     sh "echo '${usuario}:${password}' | sudo chpasswd"
-                    echo "Contraseña generada para ${usuario}: ${password}"
+                    // Fuerza el cambio de contraseña en el primer inicio de sesión
+                    sh "sudo passwd --expire ${usuario}"
+                    echo "Contraseña TEMPORAL generada para ${usuario}: ${password}"
+                    echo "Por favor, cambie su contraseña en su primer inicio de sesión."
                 }
             }
         }
