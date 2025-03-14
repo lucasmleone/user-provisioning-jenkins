@@ -37,7 +37,7 @@ pipeline {
                 // Crea el usuario; en caso de duplicado muestra error
                 sh "sudo useradd -m -s /bin/bash ${usuario} 2>/dev/null || echo 'El ${usuario} ya existe'" 
                 // Agrega el usuario al grupo correspondiente del departamento
-                sh '''sudo usermod -aG $(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}'''
+                sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}"""
                 // Agrega el usuario al grupo sudo para permisos administrativos
                 sh "sudo usermod -aG sudo ${usuario}" 
             }
