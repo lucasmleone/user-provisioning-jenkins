@@ -35,7 +35,7 @@ pipeline {
         stage('User Create') {
             steps {
                 // Crea el usuario; se debe agregar control para evitar duplicados si existiera
-                sh "sudo useradd -m -s /bin/bash ${usuario}" //falta controlar si el usuario ya existe
+                sh "sudo useradd -m -s /bin/bash ${usuario} > /dev/null || echo 'El ${usuario} ya existe'" //falta controlar si el usuario ya existe
                 // Agrega el usuario al grupo correspondiente del departamento
                 sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}"""
                 // Agrega el usuario al grupo sudo para permisos administrativos
