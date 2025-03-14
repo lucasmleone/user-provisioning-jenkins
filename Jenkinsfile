@@ -49,7 +49,7 @@ pipeline {
                     password = sh(script: 'openssl rand -base64 12', returnStdout: true).trim()
                     sh "echo '${usuario}:${password}' | sudo chpasswd"
                     // Fuerza el cambio de contraseña en el primer inicio de sesión
-                    sh "passwd --expire ${usuario}"
+                    sh "sudo passwd --expire ${usuario}"
                     echo "Contraseña TEMPORAL generada para ${usuario}: ${password}"
                     echo "Por favor, cambie su contraseña en su primer inicio de sesión."
                 }
