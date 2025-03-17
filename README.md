@@ -41,7 +41,7 @@ Sigue estos pasos para usar el pipeline:
     - El pipeline creará el usuario, lo agregará al grupo correspondiente y generará una contraseña temporal.
     - La contraseña temporal se mostrará en la salida del pipeline.  
       Asegúrate de que el usuario cambie su contraseña en su primer inicio de sesión.  
-      ![Cambio de contraseña](newPassword.png)
+      ![Cambio de contraseña](/media/newPassword.png)
 
 ## Ejemplos de Ejecución
 
