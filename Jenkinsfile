@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     // Genera una contraseña aleatoria y la asigna al usuario creado
-                    password = sh(script: 'openssl rand -base64 12', returnStdout: true).trim()
+                    sh '''password=$(openssl rand -base64 12)'''
                     sh "echo '${usuario}:${password}' | sudo chpasswd"
                     // Fuerza el cambio de contraseña en el primer inicio de sesión
                     sh "sudo passwd --expire ${usuario}"

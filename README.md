@@ -39,6 +39,7 @@ Sigue estos pasos para usar el pipeline:
 3. **Verifica la creación del usuario**:
     - El pipeline creará el usuario, lo agregará al grupo correspondiente y generará una contraseña temporal.
     - La contraseña temporal se mostrará en la salida del pipeline. Asegúrate de que el usuario cambie su contraseña en su primer inicio de sesión.
+    ![alt text](newPassword.png)
 
 ## Ejemplos de Ejecución
 
@@ -75,5 +76,6 @@ Sigue estos pasos para usar el pipeline:
 - Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales. El pipeline eliminará cualquier carácter especial (incluido las letrass con acentos) durante la normalización de los inputs.
 - El pipeline verifica si el grupo del departamento existe y lo crea si no existe.
 - La contraseña generada es temporal y se fuerza al usuario a cambiarla en su primer inicio de sesión.
-
+- En caso de que el usuario exista se mostrara un error y se detendra la ejecucion
+![alt text](userFail.png)
 
