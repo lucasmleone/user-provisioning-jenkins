@@ -22,7 +22,7 @@ pipeline {
                 // Verifica si el grupo del departamento existe. En caso de que no exista lo crea
                 script{
                     grupo = sh(script: """echo ${params.DEPARTAMENTO} | tr '[:upper:]' '[:lower:]'""", returnStdout: true).trim()
-                    sh """(getent group ${grupo} && echo ${grupo}) || (echo 'El grupo no existe procedere a crearlo' && groupadd ${grupo})"""
+                    sh """(getent group ${grupo} && echo ${grupo}) || (echo 'El grupo no existe procedere a crearlo' && sudo groupadd ${grupo})"""
                 }
             }
         }
