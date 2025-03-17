@@ -52,7 +52,6 @@ Sigue estos pasos para usar el pipeline:
 2. **Salida esperada**:
     ```plaintext
     Usuario generado: juan-perez
-    El usuario juan-perez ya existe
     Contraseña TEMPORAL generada para juan-perez: <contraseña_generada>
     Por favor, cambie su contraseña en su primer inicio de sesión.
     ```
@@ -67,14 +66,13 @@ Sigue estos pasos para usar el pipeline:
 2. **Salida esperada**:
     ```plaintext
     Usuario generado: juancarlos-perezgarcia
-    El usuario juancarlos-perezgarcia ya existe
     Contraseña TEMPORAL generada para juancarlos-perezgarcia: <contraseña_generada>
     Por favor, cambie su contraseña en su primer inicio de sesión.
     ```
 
 ## Notas
 
-- Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales. El pipeline eliminará cualquier carácter especial durante la normalización de los inputs.
+- Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales. El pipeline eliminará cualquier carácter especial (incluido las letrass con acentos) durante la normalización de los inputs.
 - El pipeline verifica si el grupo del departamento existe y lo crea si no existe.
 - La contraseña generada es temporal y se fuerza al usuario a cambiarla en su primer inicio de sesión.
 
