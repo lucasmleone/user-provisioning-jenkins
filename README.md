@@ -83,24 +83,4 @@ Sigue estos pasos para usar el pipeline:
 
 ## Diagrama de Alto Nivel
 
-```mermaid
-flowchart TD
-    A[Inicio del Pipeline] --> B[Entrada de Parámetros<br/>(NOMBRE, APELLIDO, DEPARTAMENTO)]
-    B --> C[Validar Entradas y Grupos]
-    C --> D{¿NOMBRE y APELLIDO<br/>no vacíos?}
-    D -- Sí --> E[Verificar si grupo de DEPARTAMENTO existe]
-    D -- No --> F[Finalizar con Error]
-    E --> G[Crear grupo si no existe]
-    G --> H[Normalizar Inputs]
-    H --> I[Generar nombre de usuario<br/>(combinando NOMBRE y APELLIDO)]
-    I --> J[User Create]
-    J --> K{Usuario ya existe?}
-    K -- Sí --> L[Mostrar error y<br/>detener pipeline]
-    K -- No --> M[Crear usuario]
-    M --> N[Agregar usuario al grupo<br/>correspondiente y al grupo sudo]
-    N --> O[Password Create]
-    O --> P[Generar contraseña aleatoria]
-    P --> Q[Asignar contraseña al usuario]
-    Q --> R[Fuerza cambio de contraseña<br/>en el primer inicio]
-    R --> S[Fin del Pipeline]
-
+![Diagrama](/media/Diagrama.png)
