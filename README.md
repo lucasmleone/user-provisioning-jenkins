@@ -9,10 +9,10 @@ Antes de ejecutar este pipeline, asegúrate de cumplir con los siguientes requer
 1. **Jenkins**: Asegúrate de tenerlo instalado y configurado.
 2. **Permisos de sudoers**: El usuario de Jenkins debe tener permisos de sudo sin contraseña de los siguientes comandos:
     ```plaintext
-    jenkins ALL=(ALL) NOPASSWD: /usr/sbin/useradd, /usr/sbin/usermod, /usr/sbin/chpasswd, /usr/bin/passwd --expire *
+    jenkins ALL=(ALL) NOPASSWD: /usr/sbin/useradd, /usr/sbin/usermod, /usr/sbin/chpasswd, /usr/bin/passwd --expire *, /usr/sbin/groupadd, /usr/sbin/groupdel
     ```
     Para agregar estos permisos, edita el archivo sudoers con el comando `sudo visudo` y agrega la línea anterior.
-    ![sudoers](/media/Sudoers.png)
+    ![sudoers](/media/sudoers.png)
 3. **Git Plugin para Jenkins**: Asegúrate de tener instalado el plugin de Git en Jenkins para poder clonar y usar este repositorio. Puedes instalarlo desde la sección de **Manage Jenkins > Manage Plugins**.
 
 ## Parámetros del Pipeline
