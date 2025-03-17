@@ -77,6 +77,7 @@ Sigue estos pasos para usar el pipeline:
 
 - Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales (incluidas letras con acentos), ya que el pipeline eliminará estos caracteres durante la normalización de los inputs.
 - El pipeline verifica si el grupo del departamento existe y lo crea si no existe.
+- En el primer build, el pipeline puede fallar porque no tiene los parámetros necesarios.
 - La contraseña generada es temporal y se fuerza al usuario a cambiarla en su primer inicio de sesión.
 - En caso de que el usuario ya exista, se mostrará un error y se detendrá la ejecución.  
   ![Usuario existente](media/userFail.png)
