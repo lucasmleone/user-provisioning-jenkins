@@ -40,8 +40,6 @@ pipeline {
                 sh "sudo useradd -m -s /bin/bash ${usuario}"
                 // Agrega el usuario al grupo correspondiente del departamento
                 sh """sudo usermod -aG \$(echo ${params.DEPARTAMENTO} | tr "[:upper:]" "[:lower:]") ${usuario}"""
-                // Agrega el usuario al grupo sudo para permisos administrativos
-                sh "sudo usermod -aG sudo ${usuario}" 
             }
         }
         stage('Password Create') {
