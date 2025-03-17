@@ -52,13 +52,15 @@ Sigue estos pasos para usar el pipeline:
     - `APELLIDO`: `Perez`
     - `DEPARTAMENTO`: `Tecnologia`
 
+![example](/media/example.png)
 2. **Salida esperada**:
     ```plaintext
     Usuario generado: juan-perez
     Contraseña TEMPORAL generada para juan-perez: <contraseña_generada>
     Por favor, cambie su contraseña en su primer inicio de sesión.
     ```
-
+![consoleout1](/media/consoleOut1.png)
+![consoleout2](/media/consoleOut2.png)
 
 ### Ejemplo 2: Nombre compuesto
 
@@ -66,15 +68,13 @@ Sigue estos pasos para usar el pipeline:
     - `NOMBRE`: `Juan Carlos`
     - `APELLIDO`: `Perez Garcia`
     - `DEPARTAMENTO`: `Finanzas`
-![example](/media/example.png)
+
 2. **Salida esperada**:
     ```plaintext
     Usuario generado: juancarlos-perezgarcia
     Contraseña TEMPORAL generada para juancarlos-perezgarcia: <contraseña_generada>
     Por favor, cambie su contraseña en su primer inicio de sesión.
     ```
-![consoleout1](/media/consoleOut1.png)
-![consoleout2](/media/consoleOut2.png)
 ## Notas
 
 - Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales (incluidas letras con acentos), ya que el pipeline eliminará estos caracteres durante la normalización de los inputs.
