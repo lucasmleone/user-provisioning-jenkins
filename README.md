@@ -12,16 +12,16 @@ Antes de ejecutar este pipeline, asegúrate de cumplir con los siguientes requer
     jenkins ALL=(ALL) NOPASSWD: /usr/sbin/useradd, /usr/sbin/usermod, /usr/sbin/chpasswd, /usr/bin/passwd --expire *
     ```
     Para agregar estos permisos, edita el archivo sudoers con el comando `sudo visudo` y agrega la línea anterior.
-    ![alt text](Sudoers.png)
+    ![sudoers](/media/Sudoers.png)
 3. **Git Plugin para Jenkins**: Asegúrate de tener instalado el plugin de Git en Jenkins para poder clonar y usar este repositorio. Puedes instalarlo desde la sección de **Manage Jenkins > Manage Plugins**.
 
 ## Parámetros del Pipeline
 
 | Parámetro    | Tipo    | Descripción |
-|-------------|--------|-------------|
-| `NOMBRE`    | String | Nombre del usuario a crear.|
-| `APELLIDO`  | String | Apellido del usuario a crear.|
-| `DEPARTAMENTO` | Choice | Departamento del usuario. Opciones disponibles: `Contabilidad`, `Finanzas`, `Tecnologia`. |
+|--------------|---------|-------------|
+| `NOMBRE`     | String  | Nombre del usuario a crear. |
+| `APELLIDO`   | String  | Apellido del usuario a crear. |
+| `DEPARTAMENTO` | Choice  | Departamento del usuario. Opciones disponibles: `Contabilidad`, `Finanzas`, `Tecnologia`. |
 
 ## Uso
 
@@ -29,7 +29,8 @@ Sigue estos pasos para usar el pipeline:
 
 1. **Configura el pipeline en Jenkins**:
     - Crea un nuevo pipeline en Jenkins.
-    - Configura el pipeline para que apunte a este repositorio (público): `https://github.com/lucasmleone/user-provisioning-jenkins.git`.
+    - Configura el pipeline para que apunte a este repositorio (público):  
+      `https://github.com/lucasmleone/user-provisioning-jenkins.git`.
     - Configura el pipeline para que use la rama `main`.
 
 2. **Ejecuta el pipeline**:
@@ -38,8 +39,9 @@ Sigue estos pasos para usar el pipeline:
 
 3. **Verifica la creación del usuario**:
     - El pipeline creará el usuario, lo agregará al grupo correspondiente y generará una contraseña temporal.
-    - La contraseña temporal se mostrará en la salida del pipeline. Asegúrate de que el usuario cambie su contraseña en su primer inicio de sesión.
-    ![alt text](newPassword.png)
+    - La contraseña temporal se mostrará en la salida del pipeline.  
+      Asegúrate de que el usuario cambie su contraseña en su primer inicio de sesión.  
+      ![Cambio de contraseña](newPassword.png)
 
 ## Ejemplos de Ejecución
 
@@ -73,9 +75,32 @@ Sigue estos pasos para usar el pipeline:
 
 ## Notas
 
-- Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales. El pipeline eliminará cualquier carácter especial (incluido las letrass con acentos) durante la normalización de los inputs.
+- Asegúrate de que los nombres y apellidos proporcionados no contengan caracteres especiales (incluidas letras con acentos), ya que el pipeline eliminará estos caracteres durante la normalización de los inputs.
 - El pipeline verifica si el grupo del departamento existe y lo crea si no existe.
 - La contraseña generada es temporal y se fuerza al usuario a cambiarla en su primer inicio de sesión.
-- En caso de que el usuario exista se mostrara un error y se detendra la ejecucion
-![alt text](userFail.png)
+- En caso de que el usuario ya exista, se mostrará un error y se detendrá la ejecución.  
+  ![Usuario existente](media/userFail.png)
+
+## Diagrama de Alto Nivel
+
+```mermaid
+flowchart TD
+    A[Inicio del Pipeline] --> B[Entrada de Parámetros<br/>(NOMBRE, APELLIDO, DEPARTAMENTO)]
+    B --> C[Validar Entradas y Grupos]
+    C --> D{¿NOMBRE y APELLIDO<br/>no vacíos?}
+    D -- Sí --> E[Verificar si grupo de DEPARTAMENTO existe]
+    D -- No --> F[Finalizar con Error]
+    E --> G[Crear grupo si no existe]
+    G --> H[Normalizar Inputs]
+    H --> I[Generar nombre de usuario<br/>(combinando NOMBRE y APELLIDO)]
+    I --> J[User Create]
+    J --> K{Usuario ya existe?}
+    K -- Sí --> L[Mostrar error y<br/>detener pipeline]
+    K -- No --> M[Crear usuario]
+    M --> N[Agregar usuario al grupo<br/>correspondiente y al grupo sudo]
+    N --> O[Password Create]
+    O --> P[Generar contraseña aleatoria]
+    P --> Q[Asignar contraseña al usuario]
+    Q --> R[Fuerza cambio de contraseña<br/>en el primer inicio]
+    R --> S[Fin del Pipeline]
 
