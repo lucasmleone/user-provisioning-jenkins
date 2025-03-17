@@ -6,13 +6,14 @@ Este proyecto contiene un pipeline de Jenkins para la provisión de usuarios en 
 
 Antes de ejecutar este pipeline, asegúrate de cumplir con los siguientes requerimientos:
 
-1. **Jenkins**: Asegúrate de tener Jenkins instalado y configurado.
-2. **Permisos de sudoers**: El usuario de Jenkins debe tener permisos de sudo sin contraseña para ejecutar los siguientes comandos:
+1. **Jenkins**: Asegúrate de tenerlo instalado y configurado.
+2. **Permisos de sudoers**: El usuario de Jenkins debe tener permisos de sudo sin contraseña de los siguientes comandos:
     ```plaintext
     jenkins ALL=(ALL) NOPASSWD: /usr/sbin/useradd, /usr/sbin/usermod, /usr/sbin/chpasswd, /usr/bin/passwd --expire *
     ```
     Para agregar estos permisos, edita el archivo sudoers con el comando `sudo visudo` y agrega la línea anterior.
-    ![alt text](image.png)
+    ![alt text](Sudoers.png)
+3. **Git Plugin para Jenkins**: Asegúrate de tener instalado el plugin de Git en Jenkins para poder clonar y usar este repositorio. Puedes instalarlo desde la sección de **Manage Jenkins > Manage Plugins**.
 
 ## Parámetros del Pipeline
 
@@ -39,9 +40,9 @@ Sigue estos pasos para usar el pipeline:
     - El pipeline creará el usuario, lo agregará al grupo correspondiente y generará una contraseña temporal.
     - La contraseña temporal se mostrará en la salida del pipeline. Asegúrate de que el usuario cambie su contraseña en su primer inicio de sesión.
 
-## Ejemplo de Ejecución
+## Ejemplos de Ejecución
 
-A continuación se muestra un ejemplo de cómo ejecutar el pipeline:
+### Ejemplo 1: Nombre simple
 
 1. **Parámetros de entrada**:
     - `NOMBRE`: `Juan`
@@ -53,6 +54,21 @@ A continuación se muestra un ejemplo de cómo ejecutar el pipeline:
     Usuario generado: juan-perez
     El usuario juan-perez ya existe
     Contraseña TEMPORAL generada para juan-perez: <contraseña_generada>
+    Por favor, cambie su contraseña en su primer inicio de sesión.
+    ```
+
+### Ejemplo 2: Nombre compuesto
+
+1. **Parámetros de entrada**:
+    - `NOMBRE`: `Juan Carlos`
+    - `APELLIDO`: `Perez Garcia`
+    - `DEPARTAMENTO`: `Finanzas`
+
+2. **Salida esperada**:
+    ```plaintext
+    Usuario generado: juancarlos-perezgarcia
+    El usuario juancarlos-perezgarcia ya existe
+    Contraseña TEMPORAL generada para juancarlos-perezgarcia: <contraseña_generada>
     Por favor, cambie su contraseña en su primer inicio de sesión.
     ```
 
